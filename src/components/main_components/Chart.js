@@ -1,54 +1,64 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import moment from 'moment';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Title from './Title';
 
 // Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
+const today = new Date();
+const data = [];
+
+for (let index = 1; index <= String(today.getDate()).padStart(2, '0'); index++) {
+  const element = {
+    day: index,
+    tickets1: Math.floor(Math.random()*1000),
+    tickets2: Math.floor(Math.random()*1000)
+  };
+  data.push(element);
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column'
+  },
+  fixedHeight: {
+    height: 240,
+  }
+}));
 
-export default function Chart() {
-  const theme = useTheme();
+const Chart = () => {
+  const classes = useStyles();
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <React.Fragment>
-      <Title>Today</Title>
+    <Paper className={fixedHeightPaper}>
+      <Title>Boletos canjeados en el mes de {moment().format("MMMM")}</Title>
       <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
-        </LineChart>
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 20, right: 30, left: 20, bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="day" />
+        <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+        <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+        <Tooltip />
+        <Legend />
+        <Bar yAxisId="left" dataKey="tickets1" fill="#8884d8" />
+        <Bar yAxisId="right" dataKey="tickets2" fill="#82ca9d" />
+      </BarChart>
       </ResponsiveContainer>
-    </React.Fragment>
+    </Paper>
   );
 }
+
+export default Chart;

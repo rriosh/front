@@ -5,9 +5,9 @@ const Copyright = () => {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-            Your Website
-            </Link>{' '}
+            <Link color="inherit" href="https://smart-home.com/">
+            Smart-home
+            </Link>{' 2019 - '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>

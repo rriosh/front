@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel,
          Checkbox, Link, Grid, Box, Typography, makeStyles, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -25,8 +26,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn = () => {
+const Login = () => {
   const classes = useStyles();
+
+
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/dashboard" } };
+
+  const handlerLogin = () => {
+    localStorage.setItem('auth', 1);
+    history.replace(from);
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -71,6 +82,7 @@ const SignIn = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => handlerLogin()}
           >
             Entrar
           </Button>
@@ -95,4 +107,4 @@ const SignIn = () => {
   );
 }
 
-export default SignIn;
+export default Login;

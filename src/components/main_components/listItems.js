@@ -9,9 +9,10 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { List } from '@material-ui/core';
 
 export const mainListItems = (
-  <div>
+  <List>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
@@ -42,7 +43,13 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Integrations" />
     </ListItem>
-  </div>
+    <ListItem button>
+      <ListItemIcon>
+        <LayersIcon />
+      </ListItemIcon>
+      <ListItemText primary="Hola" />
+    </ListItem>
+  </List>
 );
 
 export const secondaryListItems = (
